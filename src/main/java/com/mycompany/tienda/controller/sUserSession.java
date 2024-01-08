@@ -96,8 +96,10 @@ public class sUserSession extends HttpServlet {
 //        System.out.println(userDao.loginUser(userLogIn));
         String responseSQL = userDao.loginUser(userLogIn);
         if (responseSQL.equals("login true")) {
+            userLogIn = userDao.searchUser(requestEmail);
             HttpSession sessionUser = request.getSession(true);
             sessionUser.setAttribute("email", requestEmail);
+            sessionUser.setAttribute("userId", userLogIn.getId());
             response.sendRedirect("pages/home.jsp");
         } else if (responseSQL.equals("login false")) {
             request.setAttribute("sessionUser", "false");
@@ -106,6 +108,7 @@ public class sUserSession extends HttpServlet {
             request.setAttribute("sessionUser", "null");
             request.getRequestDispatcher("main.jsp").forward(request, response);
         }
+        userDao.closeDBConnection();
     }
 
     /**

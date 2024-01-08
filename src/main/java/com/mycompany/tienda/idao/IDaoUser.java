@@ -11,16 +11,16 @@ import com.mycompany.tienda.models.User;
  * @author rodri
  */
 public interface IDaoUser {
-    
+
     String createUser(User user);/// create
-    
+
     String loginUser(User user);
-    
+
     User searchUser(String emailUser);/// read
 
     String updateUser(User user);// update
-    
+
     String deleteUser(String emailUser);// delete
 
-//    boolean correorepetido(User u);
+    boolean closeDBConnection();
 }

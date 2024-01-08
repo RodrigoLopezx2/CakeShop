@@ -9,6 +9,7 @@ package com.mycompany.tienda.models;
  * @author rodri
  */
 public class User {
+    private int id;
     private String name;
     private String lastName;
     private int age;
@@ -37,6 +38,15 @@ public class User {
         this.direction = direction;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
     public String getName() {
         return name;
     }

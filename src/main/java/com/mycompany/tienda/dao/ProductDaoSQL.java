@@ -21,7 +21,7 @@ import java.util.List;
 public class ProductDaoSQL implements IProductDaoSQL {
 
     private final String SAVE_DATA_PRODUCT_PROCEDURE = "{call saveDataProduct(?,?,?,?,?,?,?,?,?,?)}";
-    private final String SEARCH_PRODUCT_PROCEDURE = "{call searchProduct(?,?,?,?,?,?)}";
+    private final String SEARCH_PRODUCT_PROCEDURE = "{call searchProduct(?,?,?,?,?,?,?)}";
     private final String SEARCH_ALL_PRODUCT_PROCEDURE = "{call searchAllProduct()}";
 
     private Connection connectionSQL;
@@ -33,7 +33,7 @@ public class ProductDaoSQL implements IProductDaoSQL {
     }
 
     @Override
-    public String createUser(Product product) {
+    public String createProduct(Product product) {
         ResultSet rs = null;
         CallableStatement st = null;
         try {
@@ -66,17 +66,43 @@ public class ProductDaoSQL implements IProductDaoSQL {
     }
 
     @Override
-    public Product searchUser(int productId) {
+    public Product searchProduct(int productId) {
+        ResultSet rs = null;
+        CallableStatement st = null;
+        Product product = new Product();
+
+        try {
+            String seletion = "searchById";
+            st = connectionSQL.prepareCall(SEARCH_PRODUCT_PROCEDURE);
+            st.setString(1, seletion);
+            st.setString(2, "");
+            st.setString(3, "");
+            st.setString(4, "");
+            st.setString(5, "");
+            st.setString(6, "");
+            st.setInt(7, productId);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                product = resultSetToProduct(rs);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error searchProducts");
+        } finally {
+//            try {
+//                connection.cerrarConectar();
+//            } catch (Exception ex) {
+//            }
+        }
+        return product;
+    }
+
+    @Override
+    public String updateProduct(Product product) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public String updateUser(Product product) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public String deleteUser(String emailUser) {
+    public String deleteProduct(int productId) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

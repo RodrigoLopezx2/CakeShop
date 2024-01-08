@@ -56,12 +56,12 @@ public class UserDaoSQL implements IDaoUser {
             return "error en createUSer ";
         } finally {
         }
-        try {
-            connection.cerrarConectar();
-        } catch (SQLException ex) {
-            System.out.println("Error en la conexion SQL");
-            return "error en createUSer ";
-        }
+//        try {
+//            connection.cerrarConectar();
+//        } catch (SQLException ex) {
+//            System.out.println("Error en la conexion SQL");
+//            return "error en createUSer ";
+//        }
         return "error en createUSer ";
     }
 
@@ -84,11 +84,11 @@ public class UserDaoSQL implements IDaoUser {
             System.out.println("error login " + e.toString());
         } finally {
 
-            try {
-                connection.cerrarConectar();
-            } catch (SQLException ex) {
-
-            }
+//            try {
+//                connection.cerrarConectar();
+//            } catch (SQLException ex) {
+//
+//            }
         }
         return "error login";
     }
@@ -106,6 +106,7 @@ public class UserDaoSQL implements IDaoUser {
             st.setString(3, "");
             rs = st.executeQuery();
             if (rs.next()) {
+                user.setId(Integer.parseInt(rs.getString("User_id")));
                 user.setName(rs.getString("User_Name"));
                 user.setLastName(rs.getString("User_LastName"));
                 user.setAge(Integer.parseInt(rs.getString("User_Age")));
@@ -120,11 +121,11 @@ public class UserDaoSQL implements IDaoUser {
             System.out.println("error searchUser " + e.toString());
         } finally {
 
-            try {
-                connection.cerrarConectar();
-            } catch (SQLException ex) {
-
-            }
+//            try {
+//                connection.cerrarConectar();
+//            } catch (SQLException ex) {
+//
+//            }
         }
         return user;
     }
@@ -153,13 +154,14 @@ public class UserDaoSQL implements IDaoUser {
             System.out.println("error en updateUSer" + e.toString());
             return "error en updateUSer";
         } finally {
+
         }
-        try {
-            connection.cerrarConectar();
-        } catch (SQLException ex) {
-            System.out.println("Error en la conexion SQL");
-            return "error en updateUSer";
-        }
+//        try {
+//            connection.cerrarConectar();
+//        } catch (SQLException ex) {
+//            System.out.println("Error en la conexion SQL");
+//            return "error en updateUSer";
+//        }
 
         return "error en updateUSer";
     }
@@ -181,15 +183,27 @@ public class UserDaoSQL implements IDaoUser {
             }
         } catch (Exception e) {
             System.out.println("error deleteUser " + e.toString());
-        } finally {
-
-            try {
-                connection.cerrarConectar();
-            } catch (SQLException ex) {
-
-            }
+//        } finally {
+//
+//            try {
+//                connection.cerrarConectar();
+//            } catch (SQLException ex) {
+//
+//            }
+//        }
+            return "error deleteUser";
         }
         return "error deleteUser";
     }
 
+    @Override
+    public boolean closeDBConnection() {
+        try {
+            connection.cerrarConectar();
+        } catch (SQLException ex) {
+            System.out.println("Conexion closed");
+           return false;
+        }
+        return true;
+    }    
 }

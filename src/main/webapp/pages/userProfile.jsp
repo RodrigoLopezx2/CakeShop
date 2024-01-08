@@ -8,13 +8,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 
-        User user = (User) request.getAttribute("userInfo");
-        if (request.getAttribute("update").equals("true")) {
-            out.println("<script>alert('usuario actualizado');</script>");
-        }
+    User user = (User) request.getAttribute("userInfo");
+    if (request.getAttribute("update").equals("true")) {
+        out.println("<script>alert('usuario actualizado');</script>");
+    }
 
 
-    %>
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,9 +24,35 @@
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
 
     </head>
-    
-
     <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Mi Tienda</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sProducts">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sCart">Carrito</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sUser">Mi perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Session">Cerrar Sesion</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
         <form method = "POST" action="sUserModify" name="Actualizar" onsubmit="return validar(this)">
             <div class="container-fluid mt-4">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -83,7 +109,7 @@
                                 </div>
                             </div>
                             <div class="col"></div>
-                            <a href="pages/home.jsp">Regresar al menu</a>
+
                         </div>
 
                     </div>
@@ -107,20 +133,20 @@
                             <div class="col"></div>
                         </div>
                     </div>
-
+                    <a href="pages/home.jsp" class="btn btn-primary">Regresar al home</a>
                 </div>
             </div>
 
             <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
             <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js'></script>
             <script>
-                function eliminar(Eliminar) {
-                    if (confirm('¿Estas seguro de eliminar tu perfil?')) {
-                        document.Eliminar.submit();
-                    } else {
-                        return false;
-                    }
-                }
+                                    function eliminar(Eliminar) {
+                                        if (confirm('¿Estas seguro de eliminar tu perfil?')) {
+                                            document.Eliminar.submit();
+                                        } else {
+                                            return false;
+                                        }
+                                    }
             </script>
     </body>
 

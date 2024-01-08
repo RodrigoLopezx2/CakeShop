@@ -40,6 +40,9 @@
                         <a class="nav-link" href="#">Contacto</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="sCart">Carrito</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="sUser">Mi perfil</a>
                     </li>
                     <li class="nav-item">
@@ -61,7 +64,12 @@
                             <p class="card-text"><%= product.getDescription()%></p>
                             <p class="card-text"><%= product.getPrice()%></p>
                             <p class="card-text"><%= product.getStock()%></p>
-                            <a href="#" class="btn btn-primary">Agregar al carrito</a>
+                            <form  action="sCart" method="POST" id="form_registerOrder">
+                                <input type="hidden" name="productId" id="productId" value="<%= product.getId()%>">
+                                <input type="hidden" name="productQuantity" id="productQuantity" value="1">
+                                <input type="hidden" name="productPrice" id="productPrice" value="<%= product.getPrice()%>">
+                                <input class="btn btn-primary btn-block" type="submit" value="Agregar al carrito" name="Envia">
+                            </form>
                         </div>
                     </div>
                 </div>

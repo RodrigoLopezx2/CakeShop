@@ -20,6 +20,18 @@
         <servlet-name>sProducts</servlet-name>
         <servlet-class>com.mycompany.tienda.controller.sProducts</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>sCart</servlet-name>
+        <servlet-class>com.mycompany.tienda.controller.sCart</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>sCartModify</servlet-name>
+        <servlet-class>com.mycompany.tienda.controller.sCartModify</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>sPurchase</servlet-name>
+        <servlet-class>com.mycompany.tienda.controller.sPurchase</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Sessions</servlet-name>
         <url-pattern>/Sessions</url-pattern>
@@ -39,6 +51,18 @@
     <servlet-mapping>
         <servlet-name>sProducts</servlet-name>
         <url-pattern>/sProducts</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sCart</servlet-name>
+        <url-pattern>/sCart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sCartModify</servlet-name>
+        <url-pattern>/sCartModify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sPurchase</servlet-name>
+        <url-pattern>/sPurchase</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -83,10 +83,11 @@ public class sUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                IDaoUser userDao = new UserDaoSQL();
+        IDaoUser userDao = new UserDaoSQL();
         User createUser = new User();
         createUser.setAge(Integer.parseInt(request.getParameter("ageUser")));
         createUser.setEmail(request.getParameter("emailUser"));
+        String emailUser = createUser.getEmail();
         createUser.setLastName(request.getParameter("lastNameUser"));
         createUser.setName(request.getParameter("nameUser"));
         createUser.setPassword(request.getParameter("passwordUser"));
@@ -94,14 +95,17 @@ public class sUser extends HttpServlet {
         createUser.setUriImage("src/");
         createUser.setDirection(request.getParameter("directionUser"));
         if (userDao.createUser(createUser).equals("registered user")) {
+            createUser = userDao.searchUser(emailUser);
             HttpSession sessionUser = request.getSession(true);
             sessionUser.setAttribute("email", createUser.getEmail());
+            sessionUser.setAttribute("userId", createUser.getId() );
             response.sendRedirect("pages/home.jsp");
-        }else{
+        } else {
             request.setAttribute("userCreated", "false");
             request.getRequestDispatcher("pages/createUser.jsp").forward(request, response);
         }
     }
+
     /**
      * Returns a short description of the servlet.
      *

@@ -12,13 +12,13 @@ import java.util.List;
  * @author rodri
  */
 public interface IProductDaoSQL {
-    String createUser(Product product);/// create
+    String createProduct(Product product);/// create
     
-    Product searchUser(int productId);/// read
+    Product searchProduct(int productId);/// read
 
-    String updateUser(Product product);// update
+    String updateProduct(Product product);// update
     
-    String deleteUser(String emailUser);// delete
+    String deleteProduct(int productId);// delete
     
     List<Product> searchAllProducts();
 }
