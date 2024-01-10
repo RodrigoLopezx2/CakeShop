@@ -59,7 +59,7 @@ end**
 delimiter ;
 call saveDataUser("create","Rodrigo", "Lopez", "22", "rodrigo@gmail.com", "1234","5534151058","src/images","Calle 4");
 -- call saveDataUser("update","Mau", "Garcia", "22", "juan@gmail.com", "1234","5534151058","src/images");
--- select * from Users;
+select * from Users;
 
 drop procedure if exists searchUser;
 delimiter **
@@ -118,4 +118,3 @@ end;**
 delimiter ;
 call searchUser('search','rodrigo@gmail.com','1234');
 -- use CakeShop;
-select * from Users;

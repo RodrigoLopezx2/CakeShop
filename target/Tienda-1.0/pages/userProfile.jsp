@@ -21,7 +21,7 @@
         <meta charset="UTF-8">
         <title>Perfil de Usuario</title>
 
-        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 
     </head>
     <body>
@@ -33,7 +33,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Inicio</a>
+                        <a class="nav-link" href="pages/home.jsp">Inicio</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="sProducts">Productos</a>
@@ -43,6 +43,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="sCart">Carrito</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sUserPurchases">Mis compras</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="sUser">Mi perfil</a>

@@ -147,7 +147,7 @@ public class OrderDetailsDaoSQL implements IOrderDetailsDaoSQL {
     }
 
     @Override
-    public List<OrderDetails> searchAllOrdersDetailsUser(int orderId) {
+    public List<OrderDetails> searchAllOrdersDetailsUserCart(int orderId) {
         ResultSet rs = null;
         CallableStatement st = null;
         List<OrderDetails> listOrderD = new ArrayList<>();
@@ -163,12 +163,12 @@ public class OrderDetailsDaoSQL implements IOrderDetailsDaoSQL {
                 listOrderD.add((resultSetToOrderDetails(rs)));
             }
         } catch (SQLException ex) {
-            System.out.println("Error searchAllOrders");
+            System.out.println("Error searchAllOrdersDetailsUser" + ex.toString()) ;
         } finally {
-            try {
-                connection.cerrarConectar();
-            } catch (Exception ex) {
-            }
+//            try {
+//                connection.cerrarConectar();
+//            } catch (Exception ex) {
+//            }
         }
         return listOrderD;
     }
@@ -181,6 +181,33 @@ public class OrderDetailsDaoSQL implements IOrderDetailsDaoSQL {
                 rs.getInt("Detail_Quantity"),
                 rs.getString("Detail_UnitPrice"));
         return orderD;
+    }
+
+    @Override
+    public List<OrderDetails> searchAllOrdersDetailsUser(int orderId) {
+         ResultSet rs = null;
+        CallableStatement st = null;
+        List<OrderDetails> listOrderD = new ArrayList<>();
+
+        try {
+            String seletion = "searchAllOrderUser";
+            st = connectionSQL.prepareCall(SEARCH_ORDER_DETAILS_PROCEDURE);
+            st.setString(1, seletion);
+            st.setInt(2, orderId);
+            st.setInt(3, 0);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                listOrderD.add((resultSetToOrderDetails(rs)));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error searchAllOrdersDetailsUser" + ex.toString()) ;
+        } finally {
+//            try {
+//                connection.cerrarConectar();
+//            } catch (Exception ex) {
+//            }
+        }
+        return listOrderD;
     }
 
 }

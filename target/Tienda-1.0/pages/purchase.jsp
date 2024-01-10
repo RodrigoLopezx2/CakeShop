@@ -29,7 +29,7 @@
         <title>Proceso de Compra</title>
 
         <!-- Agrega los enlaces a los archivos CSS de Bootstrap -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light text-left">
@@ -50,6 +50,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../sCart">Carrito</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sUserPurchases">Mis compras</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../sUser">Mi perfil</a>

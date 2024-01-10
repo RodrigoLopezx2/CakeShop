@@ -46,15 +46,6 @@ public class sUserSession extends HttpServlet {
             out.println("<h1>Servlet Sessions at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-//            IDaoUser userDao = new UserDaoSQL();
-//            User userNew = new User("Juan", "Beltran", 23, "juan@gmail.com", "asdf", "5512345678", "src/iamge");
-//            System.out.println(userDao.createUser(userNew));
-
-            //login
-//            User userLogIn = new User("rodrigo@gmail.com", "1234");
-//            System.out.println(userDao.loginUser(userLogIn));
-//            System.out.println(userDao.searchUser(userLogIn.getEmail(), userLogIn.getPassword()));
-//            System.out.println(userDao.deleteUser(userLogIn.getEmail(), userLogIn.getPassword()));
         }
     }
 

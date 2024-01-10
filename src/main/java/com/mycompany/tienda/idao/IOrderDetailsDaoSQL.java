@@ -21,5 +21,8 @@ public interface IOrderDetailsDaoSQL {
     
     String deleteOrderDetails(int orderDetailsId, int productId);// delete
     
+    List<OrderDetails> searchAllOrdersDetailsUserCart(int orderId);
+    
     List<OrderDetails> searchAllOrdersDetailsUser(int orderId);
+    
 }

@@ -98,20 +98,30 @@ begin
 				end if;
 			else 
 				if(iSelection = 'active')then
-				set orderExists = (select count(*) from Orders where User_id = iUserId AND Order_Status = 'Carrito');
-				if(orderExists != 0)then
-					set msjOut = 'Orders actives';
+					set orderExists = (select count(*) from Orders where User_id = iUserId AND Order_Status = 'Carrito');
+					if(orderExists != 0)then
+						set msjOut = 'Orders actives';
+					else
+						set msjOut = 'Order doesnt exists';
+					end if;
+					select orderExists as orderExists , msjOut as Message;
 				else
-					set msjOut = 'Order doesnt exists';
-				end if;
-                select orderExists as orderExists , msjOut as Message;
+					if(iSelection = 'purchases')then
+					set orderExists = (select count(*) from Orders where User_id = iUserId);
+						if(orderExists != 0)then
+							select * from Orders where User_id = iUserId AND Order_Status NOT LIKE 'Carrito'; 
+						else
+							set msjOut = 'No orders found';
+							select orderExists as orderExists , msjOut as Message;
+                        end if;
+					end if;
 				end if;
             end if;
 		end if;
 	end if;
 end;**
 delimiter ;
- -- call searchOrder('find-Actives',1, '2024-01-08', 'Comprado');
+ call searchOrder('purchases',1, '2024-01-08', 'Comprado');
 -- select User_id from Orders where Order_id = 1;
 -- use CakeShop;
 -- select * from Orders;
@@ -125,4 +135,3 @@ begin
 end;**
 delimiter ;
 call searchAllOrders();
-

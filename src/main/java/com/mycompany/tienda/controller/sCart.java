@@ -83,7 +83,7 @@ public class sCart extends HttpServlet {
         order = orderDao.searchOrderByUserId(userId);
         OrderDetailsDaoSQL orderDetailsDaoSQL = new OrderDetailsDaoSQL();
         List<OrderDetails> listOrderDetails = new ArrayList<>();
-        listOrderDetails = orderDetailsDaoSQL.searchAllOrdersDetailsUser(order.getId());
+        listOrderDetails = orderDetailsDaoSQL.searchAllOrdersDetailsUserCart(order.getId());
         if (listOrderDetails.size() >= 0) {
             System.out.println(listOrderDetails);
             request.setAttribute("listOrderDetails", listOrderDetails);

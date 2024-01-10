@@ -70,7 +70,7 @@ public class sPurchase extends HttpServlet {
         order = orderDao.searchOrderByUserId(userId);
         OrderDetailsDaoSQL orderDetailsDaoSQL = new OrderDetailsDaoSQL();
         List<OrderDetails> listOrderDetails = new ArrayList<>();
-        listOrderDetails = orderDetailsDaoSQL.searchAllOrdersDetailsUser(order.getId());
+        listOrderDetails = orderDetailsDaoSQL.searchAllOrdersDetailsUserCart(order.getId());
         if (listOrderDetails.size() >= 0) {
             System.out.println(listOrderDetails);
             request.setAttribute("listOrderDetails", listOrderDetails);
@@ -97,7 +97,7 @@ public class sPurchase extends HttpServlet {
         order.setId(orderId);
         order.setIdUser(userId);
         order = orderDao.searchOrderByUserId(userId);
-        order.setStatus("Comprado");
+        order.setStatus("En camino");
         String mjs = orderDao.updateOrder(order);
         if(mjs.equals("Order info updated")){
             System.out.println("Carrito comprado");

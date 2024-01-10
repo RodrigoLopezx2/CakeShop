@@ -118,4 +118,3 @@ end;**
 delimiter ;
 call searchUser('search','rodrigo@gmail.com','1234');
 -- use CakeShop;
-select * from Users;

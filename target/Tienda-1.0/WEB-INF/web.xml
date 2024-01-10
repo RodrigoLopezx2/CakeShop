@@ -32,6 +32,10 @@
         <servlet-name>sPurchase</servlet-name>
         <servlet-class>com.mycompany.tienda.controller.sPurchase</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>sUserPurchases</servlet-name>
+        <servlet-class>com.mycompany.tienda.controller.sUserPurchases</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Sessions</servlet-name>
         <url-pattern>/Sessions</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>sPurchase</servlet-name>
         <url-pattern>/sPurchase</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sUserPurchases</servlet-name>
+        <url-pattern>/sUserPurchases</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

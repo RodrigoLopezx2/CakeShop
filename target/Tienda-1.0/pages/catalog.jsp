@@ -19,7 +19,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     </head>
 
     <body>
@@ -41,6 +41,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="sCart">Carrito</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sUserPurchases">Mis compras</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="sUser">Mi perfil</a>

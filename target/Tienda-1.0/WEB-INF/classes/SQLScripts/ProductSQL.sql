@@ -55,7 +55,9 @@ begin
 select idProduct as ProductId, mjsOut as Message;	
 end**
 delimiter ;
-call saveDataProduct('create',1,'Pan32ake','Patel de hocolae','100.00','30','images/image1.jpg');
+call saveDataProduct('create',1,'Paeatq','Patl de hocolae','100.00','30','images/image1.jpg');
+call saveDataProduct('create',1,'Paetq','Patl de hocolae','100.00','30','images/image1.jpg');
+call saveDataProduct('create',1,'Paeq','Patl de hocolae','100.00','30','images/image1.jpg');
 
 -- call saveDataUser('update','Mau', 'Garcia', '22', 'juan@gmail.com', '1234','5534151058','src/images');
 select * from Products;
@@ -68,7 +70,8 @@ create procedure searchProduct(
     in iDescription VARCHAR(255),
     in iPrice  VARCHAR(20),
     in iStock VARCHAR(255),
-    in iUriImage VARCHAR(200))
+    in iUriImage VARCHAR(200),
+    in iProductId INTEGER)
 begin
 	declare msjOut varchar(80);
     declare productExists int;
@@ -89,64 +92,31 @@ begin
 				end if;
 				select idProduct as Product_id , msjOut as Message;
 	else
-			if(iSelection = 'search')then
-				if(productExists = 1)then							
-					set msjOut = 'Product found';
-					select * from Products where Product_id=idProduct;
+		if(iSelection = 'search')then
+			if(productExists = 1)then							
+				set msjOut = 'Product found';
+				select * from Products where Product_id=idProduct;
+			else
+				set msjOut = 'Product doesnt exists';
+				select idProduct as Product_id , msjOut as Message;
+			end if;
+		else
+			if(iSelection = 'searchById')then
+				set productExists = (select count(*) from Products where Product_id = iProductId);
+				if(productExists != 0)then							
+					select * from Products where Product_id=iProductId;
 				else
 					set msjOut = 'Product doesnt exists';
 					select idProduct as Product_id , msjOut as Message;
 				end if;
 			end if;
+		end if;
 	end if;
 end;**
 delimiter ;
-call searchProduct('search','Pastel','Pastel de vainilla integral','120.00','30','src/');
+call searchProduct('search','Pastel','Pasel de vainilla integral','120.00','30','images/image1.jpg',1);
 -- use CakeShop;
 -- select * from Products;
-
-use CakeShop;
-drop procedure if exists searchProduct;
-delimiter **
-create procedure searchProduct(
-	in iSelection varchar(30),
-	in iName VARCHAR(100),
-    in iDescription VARCHAR(255),
-    in iPrice  VARCHAR(20),
-    in iStock VARCHAR(255),
-    in iUriImage VARCHAR(200))
-begin
-	declare msjOut varchar(80);
-    declare productExists int;
-    declare idProduct int;
-    -- declare mail varchar(50);
-    declare pass varchar(50);
-    set productExists = (select count(*) from Products where Product_Name = iName AND Product_Description = iDescription);
-    set idProduct = (select Product_id from Products where Product_Name = iName AND Product_Description = iDescription AND Product_Price = iPrice AND Product_Stock = iStock AND Product_UriImage = iUriImage);
-	if(iSelection = 'delete')then
-				if(productExists = 1)then
-					/*elimnar todos los registros de las demas tablas*/
-					delete from Products where Product_id=idProduct;
-					set msjOut = 'Product deleted';
-					-- select idProduct as UserID , msjOut as Message, mail as Email ;
-				else
-					set msjOut = 'Product doesnt exists';
-					-- select idper as usuario , msj as mensaje, mail as correo ;
-				end if;
-				select idProduct as Product_id , msjOut as Message;
-	else
-			if(iSelection = 'search')then
-				if(productExists = 1)then							
-					set msjOut = 'Product found';
-					select * from Products where Product_id=idProduct;
-				else
-					set msjOut = 'Product doesnt exists';
-					select idProduct as Product_id , msjOut as Message;
-				end if;
-			end if;
-	end if;
-end;**
-delimiter ;
 
 
 use CakeShop;

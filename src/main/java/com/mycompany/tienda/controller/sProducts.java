@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -39,7 +40,7 @@ public class sProducts extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet sProducts</title>");            
+            out.println("<title>Servlet sProducts</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet sProducts at " + request.getContextPath() + "</h1>");
@@ -60,15 +61,21 @@ public class sProducts extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession sessionUser = request.getSession();
+        String userEmail = (String) sessionUser.getAttribute("email");
+        
         IProductDaoSQL productsDao = new ProductDaoSQL();
         List<Product> listProducts = new ArrayList<>();
         listProducts = productsDao.searchAllProducts();
-        if(listProducts.size()!=0){
+        if (listProducts.size() != 0) {
             System.out.println(listProducts);
             request.setAttribute("listProducts", listProducts);
+            if (userEmail.equals("admin@gmail.com")) {
+                request.getRequestDispatcher("pages/productsAdmin.jsp").forward(request, response);
+            }
             request.getRequestDispatcher("pages/catalog.jsp").forward(request, response);
         }
-        
+
     }
 
     /**

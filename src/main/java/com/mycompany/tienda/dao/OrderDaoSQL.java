@@ -7,10 +7,12 @@ package com.mycompany.tienda.dao;
 import com.mycompany.tienda.DB.MySQLConnection;
 import com.mycompany.tienda.idao.IOrderDaoSQL;
 import com.mycompany.tienda.models.Order;
+import com.mycompany.tienda.models.OrderDetails;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -176,6 +178,45 @@ public class OrderDaoSQL implements IOrderDaoSQL {
 //            return "error en createUSer ";
 //        }
         return orderFound;
+    }
+
+    @Override
+    public List<Order> searchOrdersUser(int userId) {
+        ResultSet rs = null;
+        CallableStatement st = null;
+        List<Order> listOrder = new ArrayList<>();
+
+        try {
+            String seletion = "purchases";
+            st = connectionSQL.prepareCall(SEARCH_ORDER_PROCEDURE);
+            st.setString(1, seletion);
+            st.setInt(2, userId);
+            st.setString(3, "");
+            st.setString(4, "");
+            rs = st.executeQuery();
+            while (rs.next()) {
+                listOrder.add((resultSetToOrderDetails(rs)));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error searchAllOrders" + ex.toString());
+        } finally {
+            try {
+                connection.cerrarConectar();
+            } catch (Exception ex) {
+            }
+        }
+        return listOrder;
+    }
+    
+    private Order resultSetToOrderDetails(ResultSet rs) throws SQLException {
+        
+        Order orderD = new Order(
+                rs.getInt("Order_id"),
+                rs.getInt("User_id"),
+                rs.getString("Order_Date"),
+                rs.getString("Order_Status"));
+        System.out.println(orderD);
+        return orderD;
     }
 
 }

@@ -27,5 +27,6 @@ public interface IOrderDaoSQL {
     
     List<Order> searchAllOrders();
     
+    List<Order> searchOrdersUser(int userId);    
     
 }

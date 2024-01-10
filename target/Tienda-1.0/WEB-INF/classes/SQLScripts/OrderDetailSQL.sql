@@ -98,20 +98,33 @@ begin
             set orderDetailsExists = (select count(*) from OrderDetails where Order_id = iOrder_id);
             set userId = (select User_id from Orders where Order_id = iOrder_id);
             set orderIsActive = (select count(*) from Orders  where User_id = userId AND Order_Status = 'Carrito' AND Order_id = iOrder_id);
-			if(orderIsActive != 0)then							
-				set msjOut = 'OrderDetails found';
-				select * from OrderDetails  where Order_id = iOrder_id;
+				if(orderIsActive != 0)then							
+					set msjOut = 'OrderDetails found';
+					select * from OrderDetails  where Order_id = iOrder_id;
+				else
+					set msjOut = 'OrderDetails searchByOrder doesnt exists';
+					select idOrderDetails as idOrderDetails , msjOut as Message;
+				end if;
 			else
-				set msjOut = 'OrderDetails searchByOrder doesnt exists';
-				select idOrderDetails as idOrderDetails , msjOut as Message;
-			end if;
+				if(iSelection = 'searchAllOrderUser')then
+					set orderDetailsExists = (select count(*) from OrderDetails where Order_id = iOrder_id);
+					set userId = (select User_id from Orders where Order_id = iOrder_id);
+					set orderIsActive = (select count(*) from Orders  where User_id = userId AND Order_id = iOrder_id);
+					if(orderIsActive != 0)then							
+						set msjOut = 'OrderDetails found';
+						select * from OrderDetails  where Order_id = iOrder_id;
+					else
+						set msjOut = 'OrderDetails searchByOrder doesnt exists';
+						select idOrderDetails as idOrderDetails , msjOut as Message;
+					end if;
+				end if;
 			end if;
 		end if;
 	end if;
 end;**
 delimiter ;
-call searchOrderDetails('searchByOrder',2, 0);
--- select * from OrderDetails;
+call searchOrderDetails('searchAllOrderUser',1, 0);
+select * from OrderDetails;
 -- select count(*) from OrderDetails where Order_id = 1;
 
 use CakeShop;
