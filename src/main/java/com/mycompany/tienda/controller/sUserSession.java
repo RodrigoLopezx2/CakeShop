@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.mycompany.tienda.idao.IDaoUser;
+import com.mycompany.tienda.models.Product;
+import java.util.List;
 
 /**
  *
@@ -61,9 +63,18 @@ public class sUserSession extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        session.invalidate();
-        response.sendRedirect("index.html");
+        HttpSession sessionUser = request.getSession();
+        if ((sessionUser.getAttribute("email") == null)) {
+            response.sendRedirect("index.html");
+            System.out.println("Sesion no creada");
+        } else {
+            HttpSession session = request.getSession();
+            if (session != null) {
+                session.invalidate();
+                response.sendRedirect("index.html");
+            }
+        }
+
     }
 
     /**
@@ -91,6 +102,7 @@ public class sUserSession extends HttpServlet {
             HttpSession sessionUser = request.getSession(true);
             sessionUser.setAttribute("email", requestEmail);
             sessionUser.setAttribute("userId", userLogIn.getId());
+            sessionUser.setAttribute("listLastsProducts", userDao.searchLastProductsUser(requestEmail));
             response.sendRedirect("pages/home.jsp");
         } else if (responseSQL.equals("login false")) {
             request.setAttribute("sessionUser", "false");

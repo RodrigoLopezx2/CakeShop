@@ -7,29 +7,35 @@ create procedure saveDataOrderDetails(
     in iOrder_id INTEGER,
     in iProduct_id INTEGER,
     in iDetail_Quantity INTEGER,
-    in iDetail_UnitPrice  VARCHAR(20)
+    in iDetail_UnitPrice  VARCHAR(20),
+    in iDetail_Product_Flavor VARCHAR(255),
+    in iDetail_Product_Size VARCHAR(255)
 )
 begin
 	declare orderDetailsExists INTEGER;
     declare idOrderDetails INTEGER;
     declare mjsOut nvarchar(50);
-	set orderDetailsExists = (select count(*) from OrderDetails where Order_id = iOrder_id AND Product_id = iProduct_id);
-    set idOrderDetails = (select Order_id from OrderDetails where Order_id = iOrder_id AND Product_id = iProduct_id);
+	set orderDetailsExists = (select count(*) from OrderDetails where Order_id = iOrder_id AND Product_id = iProduct_id AND Detail_Product_Flavor = iDetail_Product_Flavor AND Detail_Product_Size = iDetail_Product_Size);
+    set idOrderDetails = (select Order_id from OrderDetails where Order_id = iOrder_id AND Product_id = iProduct_id AND Detail_Product_Flavor = iDetail_Product_Flavor AND Detail_Product_Size = iDetail_Product_Size);
     if(iSelection='create')then
 		if(orderDetailsExists=0)then
 			INSERT INTO OrderDetails( 
 				Order_id,
 				Product_id ,
     			Detail_Quantity ,
-    			Detail_UnitPrice ) 
+    			Detail_UnitPrice,
+                Detail_Product_Flavor,
+                Detail_Product_Size) 
 			values(
 				iOrder_id,
 				iProduct_id,
 				iDetail_Quantity,
-				iDetail_UnitPrice
+				iDetail_UnitPrice,
+                iDetail_Product_Flavor,
+                iDetail_Product_Size
 			) ;
 			set mjsOut = 'registered orderDetails';
-			set idOrderDetails = (select Order_id from OrderDetails where Order_id = iOrder_id AND Product_id = iProduct_id);
+			set idOrderDetails = (select Order_id from OrderDetails where Order_id = iOrder_id AND Product_id = iProduct_id AND Detail_Product_Flavor = iDetail_Product_Flavor AND Detail_Product_Size = iDetail_Product_Size);
         else
 			set mjsOut = 'no posiible registered orderDetails'; 
         end if;
@@ -51,18 +57,20 @@ begin
 select idOrderDetails as OrderId, mjsOut as Message;	
 end**
 delimiter ;
--- call saveDataOrderDetails('create',0,1,2,4,'300.00');
+-- call saveDataOrderDetails('create',0,1,1,3,'2.00','Menta','20 personas');
+-- call saveDataOrderDetails('update',1, 1, 1, 2, '1');
 
-call saveDataOrderDetails('update',1, 1, 1, 2, '1');
--- call saveDataUser('update','Mau', 'Garcia', '22', 'juan@gmail.com', '1234','5534151058','src/images');
-select * from OrderDetails;
+select * from OrderDetails; 
 use CakeShop;
 drop procedure if exists searchOrderDetails;
 delimiter **
 create procedure searchOrderDetails(
 	in iSelection varchar(30),
 	in iOrder_id INTEGER,
-    in iProduct_id INTEGER)
+    in iProduct_id INTEGER,
+    in iDetail_Product_Flavor VARCHAR(255),
+    in iDetail_Product_Size VARCHAR(255)
+    )
 begin
 	declare msjOut varchar(80);
     declare orderDetailsExists int;
@@ -71,8 +79,8 @@ begin
     declare userId int;
     -- declare mail varchar(50);
     declare pass varchar(50);
-    set orderDetailsExists = (select count(*) from OrderDetails where Order_id = iOrder_id AND iProduct_id = Product_id );
-    set idOrderDetails = (select Detail_id from OrderDetails where Order_id = iOrder_id AND iProduct_id = Product_id );
+    set orderDetailsExists = (select count(*) from OrderDetails where Order_id = iOrder_id AND iProduct_id = Product_id AND Detail_Product_Flavor = iDetail_Product_Flavor AND Detail_Product_Size = iDetail_Product_Size);
+    set idOrderDetails = (select Detail_id from OrderDetails where Order_id = iOrder_id AND iProduct_id = Product_id AND Detail_Product_Flavor = iDetail_Product_Flavor AND Detail_Product_Size = iDetail_Product_Size);
 	if(iSelection = 'delete')then
 				if(orderDetailsExists = 1)then
 					/*elimnar todos los registros de las demas tablas*/
@@ -123,9 +131,7 @@ begin
 	end if;
 end;**
 delimiter ;
-call searchOrderDetails('searchAllOrderUser',1, 0);
-select * from OrderDetails;
--- select count(*) from OrderDetails where Order_id = 1;
+call searchOrderDetails('searchByOrder',1, 0,'','');
 
 use CakeShop;
 drop procedure if exists searchAllOrderDetails;

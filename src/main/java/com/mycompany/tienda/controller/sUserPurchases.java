@@ -62,19 +62,24 @@ public class sUserPurchases extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession sessionUser = request.getSession();
+        if ((sessionUser.getAttribute("email") == null)) {
+            response.sendRedirect("index.html");
+            System.out.println("Sesion no creada");
+        }
         OrderDaoSQL orderDao = new OrderDaoSQL();
 //      Order order = new Order();
 //      int orderId = Integer.parseInt(request.getParameter("orderId"));
-        HttpSession sessionUser = request.getSession();
-        int userId = (int) sessionUser.getAttribute("userId");
         
+        int userId = (int) sessionUser.getAttribute("userId");
+
         List<List<OrderDetails>> detailsEachOrder = new ArrayList<>();
 
         List<Order> listOrder = new ArrayList<>();
         listOrder = orderDao.searchOrdersUser(userId);
-        
-        System.out.println(listOrder);            
-        
+
+        System.out.println(listOrder);
+
         for (Order order : listOrder) {
             OrderDetailsDaoSQL orderDetailsDaoSQL = new OrderDetailsDaoSQL();
             List<OrderDetails> listOrderDetails = new ArrayList<>();

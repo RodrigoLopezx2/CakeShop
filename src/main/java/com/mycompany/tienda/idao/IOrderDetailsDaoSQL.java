@@ -15,11 +15,11 @@ import java.util.List;
 public interface IOrderDetailsDaoSQL {
     String createOrderDetails(OrderDetails orderDetails);/// create
     
-    OrderDetails searchOrderDetails(int orderDetailsId, int productId);/// read
+    OrderDetails searchOrderDetails(int orderDetailsId, int productId, String orderDetailFlavor, String orderDetailSize);/// read
 
     String updateOrderDetails(OrderDetails orderDetails);// update
     
-    String deleteOrderDetails(int orderDetailsId, int productId);// delete
+    String deleteOrderDetails(int orderDetailsId, int productId, String orderDetailFlavor, String orderDetailSize);// delete
     
     List<OrderDetails> searchAllOrdersDetailsUserCart(int orderId);
     

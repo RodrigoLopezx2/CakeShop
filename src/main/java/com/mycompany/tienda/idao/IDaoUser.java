@@ -4,7 +4,9 @@
  */
 package com.mycompany.tienda.idao;
 
+import com.mycompany.tienda.models.Product;
 import com.mycompany.tienda.models.User;
+import java.util.List;
 
 /**
  *
@@ -21,6 +23,8 @@ public interface IDaoUser {
     String updateUser(User user);// update
 
     String deleteUser(String emailUser);// delete
+    
+    List<Product> searchLastProductsUser(String emailUser);
 
     boolean closeDBConnection();
 }

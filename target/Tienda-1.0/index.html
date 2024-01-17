@@ -1,62 +1,77 @@
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <title>Dulzura</title>
-        <link rel="stylesheet" href="Css/home.css">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Pasteleria Dulzura</title>
+        <!-- Agregar enlaces a los estilos de Bootstrap -->
+        <script type="text/javascript" src="JavaScript/validateForm.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     </head>
-
     <body>
-        <div class="main">
-            <div class="navbar">
-                <div class="icon">
-                    <h2 class="logo">Dulzura</h2>
-                </div>
 
-                <div class="menu">
-                    <ul>
-                        <li><a href="#">INICIO</a></li>
-                        <li><a href="#">NOSTROS</a></li>
-                        <li><a href="#">CATALOGO</a></li>
-                        <li><a href="#">ORDENA</a></li>
-                        <li><a href="#">CONTACTO</a></li>
-                    </ul>
-                </div>
+        <!-- Barra de navegación -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Pasteleria Dulzura</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
 
-            </div> 
-            <div class="content">
-                <div class="Description">
-                    <h1>Web Design & <br><span>Development</span> <br>Course</h1>
-                    <div class="DescriptionP">
-                        <p class="par">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt neque  
-                            expedita atque eveniet <br> quis nesciunt. Quos nulla vero consequuntur, fugit nemo ad delectus 
-                            <br> a quae totam ipsa illum minus laudantium?</p>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contacto</a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Contenido principal -->
+        <!-- Contenido principal -->
+        <div class="container mt-4">
+            <!-- Formulario de inicio de sesión -->
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>Bienvenido a Pasteleria Deliciosa</h1>
+                    <p>Descubre nuestras deliciosas creaciones.</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">Iniciar Sesion</div>
+                        <div class="card-body">
+                            <form action="Session" method="POST" id="formSession" onsubmit="return validar(this)">
+                                <div class="form-group">
+                                    <label for="username">Correo: </label>
+                                    <input class="form-control" type="email" id="emailUser" name="emailUser" placeholder="a@gmail.com" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Contrasena:</label>
+                                    <input type="password" class="form-control" id="passwordUser" name="passwordUser" onkeypress="return sololetras()(event)" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
+                            </form>
+                            <p class="link">No tienes cuenta?<br>
+                                <a href="pages/createUser.jsp">Registrate</a> Aqui</p>
+                        </div>
                     </div>
-                    <button class="cn"><a href="#">JOIN US</a></button>                
-                </div>
-                <div class="form" id="loginPanel">
-                    <h2>Login Here</h2>
-                    <form action="Session" method="POST">
-                        <input class="inputForm" type="email" id="emailUser" name="emailUser" placeholder="Enter Email Here">
-                        <input class="inputForm" type="password"  id="passwordUser" name="passwordUser" placeholder="Enter Password Here">
-                        <!--                    <button class="btnn" id="submit_button">Entrar</button>-->
-                        <input type="submit" class="btnn"  name="login" id="login" value="Ingresar"/>
-                    </form>                   
-                    <p class="link">Don't have an account<br>
-                        <a href="pages/createUser.jsp">Registrate </a> here</p>
-                    <!--                    <p class="liw">Log in with</p>
-                    
-                                        <div class="icons">
-                                            <a href="#"><ion-icon name="logo-facebook"></ion-icon></a>
-                                            <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
-                                            <a href="#"><ion-icon name="logo-twitter"></ion-icon></a>
-                                            <a href="#"><ion-icon name="logo-google"></ion-icon></a>
-                                            <a href="#"><ion-icon name="logo-skype"></ion-icon></a>
-                                        </div>-->
-
                 </div>
             </div>
         </div>
-        <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+        <!-- Pie de página -->
+        <footer class="bg-light text-center py-3">
+            <p>&copy; 2024 Pastelería Deliciosa. Todos los derechos reservados.</p>
+        </footer>
+        <!-- Agregar enlaces a los scripts de Bootstrap y jQuery (es necesario para el funcionamiento de algunos componentes de Bootstrap) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
     </body>
 </html>

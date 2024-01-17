@@ -10,8 +10,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page errorPage="../ErrorPage.html"%>
 <%
-    
     List<OrderDetails> listOrderDetails = new ArrayList<>();
     ProductDaoSQL productDao = new ProductDaoSQL();
     listOrderDetails = (List<OrderDetails>) request.getAttribute("listOrderDetails");
@@ -30,15 +30,6 @@
 
         <!-- Agrega los enlaces a los archivos CSS de Bootstrap -->
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            /* Estilo personalizado para un input más pequeño */
-            .input-sm {
-                font-size: 0.75rem; /* Ajusta el tamaño del texto según sea necesario */
-                padding: 0.25rem 0.5rem; /* Ajusta el relleno según sea necesario */
-                height: 1.7rem; /* Ajusta la altura según sea necesario */
-            }
-        </style>
-    </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Mi Tienda</a>

@@ -18,7 +18,7 @@ public interface IProductDaoSQL {
 
     String updateProduct(Product product);// update
     
-    String deleteProduct(int productId);// delete
+    String deleteProduct(int productId, String decriptionProduct, String nameProduct);// delete
     
     List<Product> searchAllProducts();
 }

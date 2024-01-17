@@ -6,6 +6,8 @@ create procedure saveDataProduct(
     in iProductId INTEGER,
 	in iName VARCHAR(100),
     in iDescription VARCHAR(255),
+    in iFlavors VARCHAR(255),
+    in iSize VARCHAR(255),
     in iPrice  VARCHAR(20),
     in iStock VARCHAR(255),
     in iUriImage VARCHAR(200)
@@ -21,12 +23,16 @@ begin
 			INSERT INTO Products( 
 				Product_Name ,
     			Product_Description ,
+                Product_Flavors,
+                Product_Size,
     			Product_Price  ,
     			Product_Stock ,
     			Product_UriImage ) 
 			values(
 				iName,
 				iDescription,
+                iFlavors,
+                iSize,
 				iPrice,
 				iStock,
 				iUriImage
@@ -42,6 +48,8 @@ begin
 			UPDATE Products set 
 				Product_Name = iName,
     			Product_Description = iDescription ,
+                Product_Flavors = iFlavors,
+                Product_Size = iSize,
     			Product_Price  = iPrice,
     			Product_Stock = iStock,
     			Product_UriImage  = iUriImage
@@ -55,9 +63,9 @@ begin
 select idProduct as ProductId, mjsOut as Message;	
 end**
 delimiter ;
-call saveDataProduct('create',1,'Paeatq','Patl de hocolae','100.00','30','images/image1.jpg');
-call saveDataProduct('create',1,'Paetq','Patl de hocolae','100.00','30','images/image1.jpg');
-call saveDataProduct('create',1,'Paeq','Patl de hocolae','100.00','30','images/image1.jpg');
+call saveDataProduct('create',1,'Pan De molde','El pan de molde es un tipo de pan rectangular y uniforme, caracterizado por su miga suave y textura tierna. ','Blanco/integral/Centeno','Grande/Pequeno','100.00','100','images/image1.jpg');
+call saveDataProduct('create',2,'Panecillos','Los panecillos son pequeños panes redondos o de forma similar, generalmente suaves y tiernos en textura.','Panecillos para hamburguesas/hot dog/bollos suizos','16-12 personas/10-8 personas','250.00','100','images/image1.jpg');
+call saveDataProduct('create',3,'Galletas','Las galletas son pequeños productos horneados, planos y crujientes, que pueden tener diversas formas, texturas y sabores.','Mantequilla/Avena/Menta','16-12 personas/10-8 personas','300.00','100','images/image1.jpg');
 
 -- call saveDataUser('update','Mau', 'Garcia', '22', 'juan@gmail.com', '1234','5534151058','src/images');
 select * from Products;
@@ -76,6 +84,7 @@ begin
 	declare msjOut varchar(80);
     declare productExists int;
     declare idProduct int;
+    declare idDetailOrder int;
     -- declare mail varchar(50);
     declare pass varchar(50);
     set productExists = (select count(*) from Products where Product_Name = iName AND Product_Description = iDescription);
@@ -83,8 +92,11 @@ begin
 	if(iSelection = 'delete')then
 				if(productExists = 1)then
 					/*elimnar todos los registros de las demas tablas*/
-					delete from Products where Product_id=idProduct;
+                    set idDetailOrder = (select Detail_id from OrderDetails where Product_id = iProductId);
+                    delete from OrderDetails where Detail_id = idDetailOrder;
+					delete from Products where Product_id = iProductId;
 					set msjOut = 'Product deleted';
+                    set idProduct = idDetailOrder;
 					-- select idProduct as UserID , msjOut as Message, mail as Email ;
 				else
 					set msjOut = 'Product doesnt exists';
@@ -114,8 +126,11 @@ begin
 	end if;
 end;**
 delimiter ;
-call searchProduct('search','Pastel','Pasel de vainilla integral','120.00','30','images/image1.jpg',1);
--- use CakeShop;
+-- call searchProduct('delete','Cheesecake','Cheesecake zarsamora','120.00','30','images/image1.jpg',3);
+use CakeShop;
+-- select Detail_id from OrderDetails where Product_id = 3;
+-- delete from OrderDetails where Detail_id=2;
+-- delete from Products where Product_id=2;
 -- select * from Products;
 
 

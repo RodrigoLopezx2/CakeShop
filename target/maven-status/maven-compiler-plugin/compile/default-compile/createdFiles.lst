@@ -1,6 +1,7 @@
 com\mycompany\tienda\models\Product.class
 com\mycompany\tienda\controller\sUserPurchases.class
 com\mycompany\tienda\controller\sCartModify.class
+com\mycompany\tienda\controller\sProductsModify.class
 com\mycompany\tienda\idao\IProductDaoSQL.class
 com\mycompany\tienda\models\User.class
 com\mycompany\tienda\idao\IOrderDaoSQL.class

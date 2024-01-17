@@ -11,17 +11,13 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page errorPage="../ErrorPage.html"%>
 <%
     List<List<OrderDetails>> detailsEachOrder = new ArrayList<>();
     List<Order> listOrder = new ArrayList<>();
-//    List<OrderDetails> listOrderDetails = new ArrayList<>();
     ProductDaoSQL productDao = new ProductDaoSQL();
     detailsEachOrder = (List<List<OrderDetails>>) request.getAttribute("detailsEachOrder");
     listOrder = (List<Order>) request.getAttribute("listOrder");
-//    OrderDetails orderDetailsActual = new OrderDetails();
-//    if (detailsEachOrder.size() > 0) {
-//        orderDetailsActual = listOrderDetails.get(0);
-//    }
     double totalCost = 0;
 %>
 <!DOCTYPE html>
@@ -33,7 +29,7 @@
 
         <!-- Agrega los enlaces a los archivos CSS de Bootstrap -->
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-        
+
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -73,21 +69,45 @@
                 <%
                     for (int i = 0; i < listOrder.size(); i++) {
                         List<OrderDetails> listOrderDetails = detailsEachOrder.get(i);
+                        String[] payment = listOrder.get(i).getPayment().split("/");
+                        String[] direction = listOrder.get(i).getDirection().split("/");
                 %> 
                 <div class="col-md-12">
 
 
-                    <h4 class="mb-3">Compra <%= i + 1 %></h4>
-                    <h5 class="mb-3">Estado de la orden : <%= listOrder.get(i).getStatus() %></h5>
+                    <h4 class="mb-3">Compra <%= i + 1%></h4>
+                    <h5 class="mb-3">Estado de la orden : </h5>
+                    <p><%= listOrder.get(i).getStatus()%></p>
+                    <h5 class="mb-3">Metodo de pago : </h5>
+                    <%
+                        for (int j = 0; j < 2; j++) {                            
+                    %> 
+                    <p><%= payment[j] %></p>
+                    <%
+                        }
+                    %>
+
+                    <h5 class="mb-3">Direccion envio :</h5>
+                    <p>
+                    <%
+                        for (int j = 0; j < direction.length; j++) {                            
+                    %> 
+                    <%= direction[j] %> . 
+                    <%
+                        }
+                    %>
+                    </p>
                     <table class="table">
                         <thead>
 
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Producto</th>
-                                <th scope="col-4">Precio</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Sabor</th>
+                                <th scope="col">Tamaño</th>
                                 <th scope="col">Cantidad</th>
-                                <th scope="col-4">Total</th>
+                                <th scope="col">Total</th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
                             </tr>
@@ -102,13 +122,16 @@
 
                                 <th scope="col"><%= j + 1%></th>
                                 <td><%= product.getName()%></td>
-                                <td>$ <%= product.getPrice()%></td>
-                                <td>$ <%= orderDetails.getQuantity()%></td>
+                                <td>$<%= product.getPrice()%></td>
+                                <td><%= orderDetails.getFlavor()%></td>
+                                <td><%= orderDetails.getSize()%></td>
+                                <td><%= orderDetails.getQuantity()%></td>
                                 <%
                                     double totalUnitario = product.getPrice() * orderDetails.getQuantity();
                                     totalCost += totalUnitario;
                                 %> 
-                                <td>$ <%= totalUnitario%></td>
+
+                                <td>$<%= totalUnitario%></td>
 
                             </tr>
                             <%
@@ -119,7 +142,9 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>$ <%= totalCost%></td>
+                                <td></td>
+                                <td></td>
+                                <td>$<%= totalCost%></td>
                             </tr>
                             <!-- Puedes agregar más filas según sea necesario -->
                         </tbody>
@@ -127,7 +152,7 @@
 
                 </div>
                 <%
-                    totalCost=0;
+                        totalCost = 0;
                     }
                 %>
                 <a href="pages/home.jsp" class="btn btn-primary">Regresar al home</a>

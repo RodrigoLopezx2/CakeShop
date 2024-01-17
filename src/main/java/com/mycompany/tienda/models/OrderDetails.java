@@ -14,17 +14,23 @@ public class OrderDetails {
     private int idProdcut;
     private int quantity;
     private String unitPrice;
+    private String Flavor;
+    private String Size;
 
     public OrderDetails() {
     }
 
-    public OrderDetails(int id, int idOrder, int idProdcut, int quantity, String unitPrice) {
+    public OrderDetails(int id, int idOrder, int idProdcut, int quantity, String unitPrice, String Flavor, String Size) {
         this.id = id;
         this.idOrder = idOrder;
         this.idProdcut = idProdcut;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
+        this.Flavor = Flavor;
+        this.Size = Size;
     }
+
+    
 
     public int getId() {
         return id;
@@ -66,9 +72,25 @@ public class OrderDetails {
         this.unitPrice = unitPrice;
     }
 
+    public String getFlavor() {
+        return Flavor;
+    }
+
+    public void setFlavor(String Flavor) {
+        this.Flavor = Flavor;
+    }
+
+    public String getSize() {
+        return Size;
+    }
+
+    public void setSize(String Size) {
+        this.Size = Size;
+    }
+
     @Override
     public String toString() {
-        return "OrderDetails{" + "id=" + id + ", idOrder=" + idOrder + ", idProdcut=" + idProdcut + ", quantity=" + quantity + ", unitPrice=" + unitPrice + '}';
+        return "OrderDetails{" + "id=" + id + ", idOrder=" + idOrder + ", idProdcut=" + idProdcut + ", quantity=" + quantity + ", unitPrice=" + unitPrice + ", Flavor=" + Flavor + ", Size=" + Size + '}';
     }
     
 }

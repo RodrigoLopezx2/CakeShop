@@ -13,16 +13,22 @@ public class Order {
     private int idUser;
     private String date;
     private String status;
+    private String payment;
+    private String direction;
 
     public Order() {
     }
 
-    public Order(int id, int idUser, String date, String status) {
+    public Order(int id, int idUser, String date, String status, String payment, String direction) {
         this.id = id;
         this.idUser = idUser;
         this.date = date;
         this.status = status;
+        this.payment = payment;
+        this.direction = direction;
     }
+
+        
 
     public int getId() {
         return id;
@@ -56,9 +62,25 @@ public class Order {
         this.status = status;
     }
 
+    public String getPayment() {
+        return payment;
+    }
+
+    public void setPayment(String payment) {
+        this.payment = payment;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
     @Override
     public String toString() {
-        return "Order{" + "id=" + id + ", idUser=" + idUser + ", date=" + date + ", status=" + status + '}';
-    }
+        return "Order{" + "id=" + id + ", idUser=" + idUser + ", date=" + date + ", status=" + status + ", payment=" + payment + ", direction=" + direction + '}';
+    }    
     
 }

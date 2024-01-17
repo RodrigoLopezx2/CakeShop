@@ -6,7 +6,9 @@ create procedure saveDataOrder(
     in iOrderId INTEGER,
 	in iUserId VARCHAR(100),
     in iDate VARCHAR(255),
-    in iStatus  VARCHAR(20)
+    in iStatus  VARCHAR(20),
+    in iPayment VARCHAR(250),
+    in iDirection VARCHAR(250)
 )
 begin
 	declare orderExists INTEGER;
@@ -19,12 +21,17 @@ begin
 			INSERT INTO Orders( 
 				User_id ,
     			Order_Date ,
-    			Order_Status ) 
+    			Order_Status,
+                Order_Payment,
+                Order_Direction
+			) 
 			values(
 				iUserId,
 				iDate,
-				iStatus
-			) ;
+				iStatus,
+                iPayment,
+                iDirection
+			);
 			set mjsOut = 'registered order';
 			-- set idOrder = (select Order_id from Orders where User_id = iUserId AND Order_Date = iDate AND Order_Status = iStatus);
         else
@@ -36,8 +43,25 @@ begin
 			UPDATE Orders set 
 				User_id = iUserId,
     			Order_Date = iDate ,
-    			Order_Status  = iStatus
+    			Order_Status  = iStatus,
+                Order_Payment = iPayment,
+                Order_Direction = iDirection
 			where Order_id = iOrderId;
+            if(iStatus = 'En camino')then
+				DROP TABLE IF EXISTS numeros;
+					CREATE TABLE numeros (id INTEGER PRIMARY KEY not null auto_increment,numero INTEGER,id_Product INTEGER);
+					INSERT INTO numeros (numero, id_Product)
+					SELECT
+						SUM(Detail_Quantity) AS TotalQuantity,
+						Product_id
+					FROM OrderDetails
+					WHERE Order_id = iOrderId
+					GROUP BY Product_id;
+					UPDATE Products
+					JOIN numeros ON Products.Product_id = numeros.id_Product
+					SET Products.Product_Stock = Products.Product_Stock - numeros.numero;
+					DROP TABLE IF EXISTS numeros;
+            end if;
 			set mjsOut = 'Order info updated';
 			-- set idOrder = (select Order_id from Orders where User_id = iUserId AND Order_Date = iDate AND Order_Status = iStatus);
         else
@@ -47,9 +71,26 @@ begin
 select mjsOut as Message;	
 end**
 delimiter ;
-call saveDataOrder('update',2, 1, '2024-01-08', 'Comprado');
+-- call saveDataOrder('update',2, 1, '2024-01-08', 'Comprado');
+-- Agregar direccion a la orden
+-- Agregar metodo de pago
 
--- call saveDataUser('update','Mau', 'Garcia', '22', 'juan@gmail.com', '1234','5534151058','src/images');
+
+
+-- DROP TABLE IF EXISTS numeros;
+-- CREATE TABLE numeros (id INTEGER PRIMARY KEY not null auto_increment,numero INTEGER,id_Product INTEGER);
+-- INSERT INTO numeros (numero, id_Product)
+-- SELECT
+--     SUM(Detail_Quantity) AS TotalQuantity,
+--     Product_id
+-- FROM OrderDetails
+-- WHERE Order_id = 1
+-- GROUP BY Product_id;
+-- UPDATE Products
+-- JOIN numeros ON Products.Product_id = numeros.id_Product
+-- SET Products.Product_Stock = Products.Product_Stock - numeros.numero;
+-- DROP TABLE IF EXISTS numeros;
+
 select * from Orders;
 use CakeShop;
 drop procedure if exists searchOrder;
@@ -121,7 +162,7 @@ begin
 	end if;
 end;**
 delimiter ;
- call searchOrder('purchases',1, '2024-01-08', 'Comprado');
+ -- call searchOrder('purchases',1, '2024-01-08', 'Comprado');
 -- select User_id from Orders where Order_id = 1;
 -- use CakeShop;
 -- select * from Orders;

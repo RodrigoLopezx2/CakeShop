@@ -57,7 +57,8 @@ begin
 select idUser as UserId, mjsOut as Message;	
 end**
 delimiter ;
-call saveDataUser("create","Rodrigo", "Lopez", "22", "rodrigo@gmail.com", "1234","5534151058","src/images","Calle 4");
+call saveDataUser("create","Rodrigo", "Lopez", "22", "rodrigo@gmail.com", "1234","5534151058","src/images",'CMDX/Iztapalapa/Col hangares/calle 3/3/4/Entre calles 3 y 4');
+call saveDataUser("create","Rodrigo", "Lopez", "22", "admin@gmail.com", "1234","5534151058","src/images",'CMDX/Iztapalapa/Col hangares/calle 3/3/4/Entre calles 3 y 4');
 -- call saveDataUser("update","Mau", "Garcia", "22", "juan@gmail.com", "1234","5534151058","src/images");
 select * from Users;
 
@@ -111,10 +112,20 @@ begin
 							set msjOut = 'Email doesnt exists';
 							select idUser as UserId , msjOut as Message, iEmail as Email ;
 						end if;
+					else
+						if(iSeletion = 'searchLastProducts')then
+							SELECT Products.*
+							FROM Users
+							INNER JOIN Orders ON Users.User_id = Orders.User_id
+							INNER JOIN OrderDetails ON Orders.Order_id = OrderDetails.Order_id
+							INNER JOIN Products ON OrderDetails.Product_id = Products.Product_id
+							WHERE Users.User_id = idUser
+                            LIMIT 3;
+						end if;
                     end if;
 			end if;
 	end if;
 end;**
 delimiter ;
-call searchUser('search','rodrigo@gmail.com','1234');
--- use CakeShop;
+call searchUser('searchLastProducts','mau@gmail.com','');
+select * from Users; 

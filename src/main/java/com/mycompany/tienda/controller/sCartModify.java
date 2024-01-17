@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -36,7 +37,7 @@ public class sCartModify extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet sCartModify</title>");            
+            out.println("<title>Servlet sCartModify</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet sCartModify at " + request.getContextPath() + "</h1>");
@@ -57,12 +58,19 @@ public class sCartModify extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession sessionUser = request.getSession();
+        if ((sessionUser.getAttribute("email") == null)) {
+            response.sendRedirect("index.html");
+            System.out.println("Sesion no creada");
+        }
         int orderId = Integer.parseInt(request.getParameter("orderId"));
         int productId = Integer.parseInt(request.getParameter("productId"));
+        String productFlavor = (String) request.getParameter("productFlavor");
+        String productSize = (String) request.getParameter("productSize");
         System.out.println("OrderId = " + orderId);
         System.out.println("productId = " + productId);
         OrderDetailsDaoSQL orderDetailsDaoSQL = new OrderDetailsDaoSQL();
-        String mjs = orderDetailsDaoSQL.deleteOrderDetails(orderId, productId);
+        String mjs = orderDetailsDaoSQL.deleteOrderDetails(orderId, productId, productFlavor, productSize);
         if (mjs.equals("OrderDetails deleted")) {
             System.out.println("OrderDetails deleted ");
         } else {
@@ -85,12 +93,16 @@ public class sCartModify extends HttpServlet {
         int orderId = Integer.parseInt(request.getParameter("orderId"));
         int productId = Integer.parseInt(request.getParameter("productId"));
         int quantutyOrderD = Integer.parseInt(request.getParameter("quantityOrderD"));
+        String productFlavor = (String) request.getParameter("productFlavor");
+        String productSize = (String) request.getParameter("productSize");
         System.out.println("OrderId = " + orderId);
         System.out.println("productId = " + productId);
         System.out.println("quantutyOrderD = " + quantutyOrderD);
         OrderDetailsDaoSQL orderDetailsDaoSQL = new OrderDetailsDaoSQL();
-        OrderDetails orderDetails = orderDetailsDaoSQL.searchOrderDetails(orderId, productId);
+        OrderDetails orderDetails = orderDetailsDaoSQL.searchOrderDetails(orderId, productId, productFlavor, productSize);
         orderDetails.setQuantity(quantutyOrderD);
+        orderDetails.setFlavor(productFlavor);
+        orderDetails.setSize(productSize);
         String mjs = orderDetailsDaoSQL.updateOrderDetails(orderDetails);
         if (mjs.equals("orderDetails info updated")) {
             System.out.println("orderDetails info updated ");

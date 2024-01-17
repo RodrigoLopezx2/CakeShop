@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class ProductDaoSQL implements IProductDaoSQL {
 
-    private final String SAVE_DATA_PRODUCT_PROCEDURE = "{call saveDataProduct(?,?,?,?,?,?,?,?,?,?)}";
+    private final String SAVE_DATA_PRODUCT_PROCEDURE = "{call saveDataProduct(?,?,?,?,?,?,?,?,?)}";
     private final String SEARCH_PRODUCT_PROCEDURE = "{call searchProduct(?,?,?,?,?,?,?)}";
     private final String SEARCH_ALL_PRODUCT_PROCEDURE = "{call searchAllProduct()}";
 
@@ -43,9 +43,11 @@ public class ProductDaoSQL implements IProductDaoSQL {
             st.setInt(2, product.getId());
             st.setString(3, product.getName());
             st.setString(4, product.getDescription());
-            st.setDouble(5, product.getPrice());
-            st.setDouble(6, product.getStock());
-            st.setString(7, product.getUriImage());
+            st.setString(5, product.getFlavores());
+            st.setString(6, product.getSize());
+            st.setDouble(7, product.getPrice());
+            st.setDouble(8, product.getStock());
+            st.setString(9, product.getUriImage());
             rs = st.executeQuery();
             if (rs.next()) {
                 String msj = rs.getString("Message");
@@ -98,12 +100,69 @@ public class ProductDaoSQL implements IProductDaoSQL {
 
     @Override
     public String updateProduct(Product product) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ResultSet rs = null;
+        CallableStatement st = null;
+        try {
+            String seletion = "update";
+            st = connectionSQL.prepareCall(SAVE_DATA_PRODUCT_PROCEDURE);
+            st.setString(1, seletion);
+            st.setInt(2, product.getId());
+            st.setString(3, product.getName());
+            st.setString(4, product.getDescription());
+            st.setString(5, product.getFlavores());
+            st.setString(6, product.getSize());
+            st.setDouble(7, product.getPrice());
+            st.setDouble(8, product.getStock());
+            st.setString(9, product.getUriImage());
+            rs = st.executeQuery();
+            if (rs.next()) {
+                String msj = rs.getString("Message");
+                return msj;
+            }
+        } catch (SQLException e) {
+            System.out.println("error en createUSer " + e.toString());
+            return "error en createUSer ";
+        } finally {
+        }
+        try {
+            connection.cerrarConectar();
+        } catch (SQLException ex) {
+            System.out.println("Error en la conexion SQL");
+            return "error en createUSer ";
+        }
+        return "error en createUSer ";
     }
 
     @Override
-    public String deleteProduct(int productId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String deleteProduct(int productId, String decriptionProduct, String nameProduct) {
+        ResultSet rs = null;
+        CallableStatement st = null;
+        Product product = new Product();
+
+        try {
+            String seletion = "delete";
+            st = connectionSQL.prepareCall(SEARCH_PRODUCT_PROCEDURE);
+            st.setString(1, seletion);
+            st.setString(2, nameProduct);
+            st.setString(3, decriptionProduct);
+            st.setString(4, "");
+            st.setString(5, "");
+            st.setString(6, "");
+            st.setInt(7, productId);
+            rs = st.executeQuery();
+            if (rs.next()) {
+                String msj = rs.getString("Message");
+                return msj;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error deleteProduct");
+        } finally {
+//            try {
+//                connection.cerrarConectar();
+//            } catch (Exception ex) {
+//            }
+        }
+        return "Error deleteProduct";
     }
 
     @Override
@@ -121,19 +180,21 @@ public class ProductDaoSQL implements IProductDaoSQL {
         } catch (SQLException ex) {
             System.out.println("Error searchAllProducts");
         } finally {
-            try {
-                connection.cerrarConectar();
-            } catch (Exception ex) {
-            }
+//            try {
+//                connection.cerrarConectar();
+//            } catch (Exception ex) {
+//            }
         }
         return product;
     }
 
-    private Product resultSetToProduct(ResultSet rs) throws SQLException {
+    public static Product resultSetToProduct(ResultSet rs) throws SQLException {
         Product product = new Product(
                 rs.getInt("Product_id"),
                 rs.getString("Product_Name"),
                 rs.getString("Product_Description"),
+                rs.getString("Product_Flavors"),
+                rs.getString("Product_Size"),
                 Double.parseDouble(rs.getString("Product_Price")),
                 Double.parseDouble(rs.getString("Product_Stock")),
                 rs.getString("Product_UriImage"));

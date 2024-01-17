@@ -4,16 +4,23 @@
     Author     : rodri
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="com.mycompany.tienda.models.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%--<%@ page errorPage="../ErrorPage.html"%>--%>
 <%
-
     User user = (User) request.getAttribute("userInfo");
     if (request.getAttribute("update").equals("true")) {
         out.println("<script>alert('usuario actualizado');</script>");
     }
 
-
+    String[] dataDirection = user.getDirection().split("/");
+    if (dataDirection.length == 0 || (dataDirection.length == 1 && dataDirection[0].isEmpty())) {
+        // Asignar espacio en blanco al array
+        dataDirection = new String[]{"","","","","","",""};
+    }
+    System.out.println("DataDirection = " + dataDirection.length);
 %>
 <!DOCTYPE html>
 <html>
@@ -88,6 +95,10 @@
                                         <input class="form-control" id="lastNameUser" name="lastNameUser" value="<%=user.getLastName()%>">
                                     </div>
                                     <div class="form-group col-lg-6 col-md-12">
+                                        <label for="phone">Telefono</label>
+                                        <input class="form-control" id="phoneUser" name="phoneUser"  value="<%=user.getPhone()%>">
+                                    </div>
+                                    <div class="form-group col-lg-6 col-md-12">
                                         <label for="phone">Contraseña</label>
                                         <input type="password"class="form-control" id="passwordUser" name="passwordUser" value="<%=user.getPassword()%>">
                                     </div>
@@ -95,23 +106,64 @@
                                         <label for="password">Confirma contraseña</label>
                                         <input type="password" class="form-control" id="confirmPasswordUser" name="confirmPasswordUser" value="<%=user.getPassword()%>">
                                     </div>
-                                    <div class="form-group col-lg-6 col-md-12">
-                                        <label for="phone">Telefono</label>
-                                        <input class="form-control" id="phoneUser" name="phoneUser"  value="<%=user.getPhone()%>">
-                                    </div>
+
                                     <div class="form-group col-lg-6 col-md-12">
                                         <label for="phone">Edad</label>
                                         <input class="form-control" id="ageUser" name="ageUser"  value="<%=user.getAge()%>">
                                     </div>
-                                    <div class="form-group col-lg-6 col-md-12">
-                                        <label for="phone">Direccion</label>
-                                        <input class="form-control" id="directionUser" name="directionUser"  value="<%=user.getDirection()%>">
+
+                                </div>
+                                <h4>Direccion</h4>
+                                <div class="col-lg-12 col-md-8 col-sm-6">
+                                    <div class="form-row">
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label for="stateDirection">Estado</label>
+                                            <input class="form-control" name="stateDirection"  id="stateDirection" 
+                                                   title="Este campo debe de llenarse unicamente con letras y numeros" placeholder="CDMX" value="<%=dataDirection[0]%>"
+                                                   onkeypress="return sololetras()(event)" required  >
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label for="municipioDirection">Municipio/Alcandia</label>
+                                            <input class="form-control" name="municipioDirection"  id="municipioDirection" 
+                                                   title="Este campo debe de llenarse unicamente con letras y numeros" placeholder="Iztapalapa" value="<%=dataDirection[1]%>"
+                                                   onkeypress="return sololetras()(event)" required  >
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label for="coloniaDirection">Colonia</label>
+                                            <input class="form-control" name="coloniaDirection"  id="coloniaDirection" 
+                                                   title="Este campo debe de llenarse unicamente con letras y numeros" placeholder="Col hangares" value="<%=dataDirection[2]%>"
+                                                   onkeypress="return sololetras()(event)" required  >
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label for="streetDirection">Calle</label>
+                                            <input class="form-control" name="streetDirection"  id="streetDirection" 
+                                                   title="Este campo debe de llenarse unicamente con letras y numeros" placeholder="Calle 3" value="<%=dataDirection[3]%>"
+                                                   onkeypress="return soloLetrasYNumeros(event)" required  >
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label for="numberInDirection">Numero interior</label>
+                                            <input class="form-control" name="numberInDirection"  id="numberInDirection"
+                                                   title="Este campo debe de llenarse unicamente con letras y numeros" placeholder="Numero interior" value="<%=dataDirection[4]%>"
+                                                   onkeypress="return soloLetrasYNumeros(event)" required  >
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label for="numberOutDirection">Numero exterior</label>
+                                            <input class="form-control" name="numberOutDirection"  id="numberOutDirection"
+                                                   title="Este campo debe de llenarse unicamente con letras y numeros" placeholder="numero exterior" value="<%=dataDirection[5]%>"
+                                                   onkeypress="return soloLetrasYNumeros(event)" required  >
+                                        </div>
+                                        <div class="form-group col-lg-6 col-md-12">
+                                            <label for="referenceDirection">Informacion adicional</label>
+                                            <input class="form-control" name="referenceDirection"  id="referenceDirection"
+                                                   title="Este campo debe de llenarse unicamente con letras y numeros" placeholder="Entre calles" value="<%=dataDirection[6]%>"
+                                                   onkeypress="return soloLetrasYNumeros(event)" required  >
+                                        </div>
                                     </div>
-                                    <input class="btn btn-primary btn-block" type="submit" value="Actualizar Perfil" name="Envia">
+                                    <input class="btn btn-primary btn-block" type="submit" value="Actualizar usuario" name="Envia">
                                     </form>
                                 </div>
                             </div>
-                            <div class="col"></div>
+                            <div class="col"><a href="pages/home.jsp" class="btn btn-primary">Regresar al home</a></div>
 
                         </div>
 
@@ -136,7 +188,7 @@
                             <div class="col"></div>
                         </div>
                     </div>
-                    <a href="pages/home.jsp" class="btn btn-primary">Regresar al home</a>
+
                 </div>
             </div>
 

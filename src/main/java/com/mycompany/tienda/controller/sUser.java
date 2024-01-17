@@ -61,8 +61,12 @@ public class sUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Entro al get /User");
+
         HttpSession sessionUser = request.getSession();
+        if (sessionUser.getAttribute("email") == null) {
+            response.sendRedirect("index.html");
+            System.out.println("Sesion no creada sUser");
+        }
         String emailUser = (String) sessionUser.getAttribute("email");
         IDaoUser userDao = new UserDaoSQL();
         User userInfo = userDao.searchUser(emailUser);
@@ -83,6 +87,18 @@ public class sUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String stateDirection = (String) request.getParameter("stateDirection");
+        String municipioDirection = (String) request.getParameter("municipioDirection");
+        String coloniaDirection = (String) request.getParameter("coloniaDirection");
+        String streetDirection = (String) request.getParameter("streetDirection");
+        String numberInDirection = (String) request.getParameter("numberInDirection");
+        String numberOutDirection = (String) request.getParameter("numberOutDirection");
+        String referenceDirection = (String) request.getParameter("referenceDirection");
+        
+        
+        String fullDirection = stateDirection + "/" + municipioDirection + "/"
+                + coloniaDirection + "/" + streetDirection + "/" + numberInDirection
+                + "/" + numberOutDirection + "/" + referenceDirection;
         IDaoUser userDao = new UserDaoSQL();
         User createUser = new User();
         createUser.setAge(Integer.parseInt(request.getParameter("ageUser")));
@@ -93,12 +109,12 @@ public class sUser extends HttpServlet {
         createUser.setPassword(request.getParameter("passwordUser"));
         createUser.setPhone(request.getParameter("phoneUser"));
         createUser.setUriImage("src/");
-        createUser.setDirection(request.getParameter("directionUser"));
+        createUser.setDirection(fullDirection);
         if (userDao.createUser(createUser).equals("registered user")) {
             createUser = userDao.searchUser(emailUser);
             HttpSession sessionUser = request.getSession(true);
             sessionUser.setAttribute("email", createUser.getEmail());
-            sessionUser.setAttribute("userId", createUser.getId() );
+            sessionUser.setAttribute("userId", createUser.getId());
             response.sendRedirect("pages/home.jsp");
         } else {
             request.setAttribute("userCreated", "false");

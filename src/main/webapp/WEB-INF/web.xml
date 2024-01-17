@@ -36,6 +36,18 @@
         <servlet-name>sUserPurchases</servlet-name>
         <servlet-class>com.mycompany.tienda.controller.sUserPurchases</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>sProductsModify</servlet-name>
+        <servlet-class>com.mycompany.tienda.controller.sProductsModify</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>sSelectedProduct</servlet-name>
+        <servlet-class>com.mycompany.tienda.controller.sSelectedProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>sUserLastsProducts</servlet-name>
+        <servlet-class>com.mycompany.tienda.controller.sUserLastsProducts</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Sessions</servlet-name>
         <url-pattern>/Sessions</url-pattern>
@@ -71,6 +83,18 @@
     <servlet-mapping>
         <servlet-name>sUserPurchases</servlet-name>
         <url-pattern>/sUserPurchases</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sProductsModify</servlet-name>
+        <url-pattern>/sProductsModify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sSelectedProduct</servlet-name>
+        <url-pattern>/sSelectedProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sUserLastsProducts</servlet-name>
+        <url-pattern>/sUserLastsProducts</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

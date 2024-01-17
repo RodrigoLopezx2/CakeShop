@@ -10,13 +10,14 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page errorPage="../ErrorPage.html"%>
 <%
     List<OrderDetails> listOrderDetails = new ArrayList<>();
     ProductDaoSQL productDao = new ProductDaoSQL();
     listOrderDetails = (List<OrderDetails>) request.getAttribute("listOrderDetails");
     OrderDetails orderDetailsActual = new OrderDetails();
-    if(listOrderDetails.size()>0){
-     orderDetailsActual = listOrderDetails.get(0);
+    if (listOrderDetails.size() > 0) {
+        orderDetailsActual = listOrderDetails.get(0);
     }
     double totalCost = 0;
 %>
@@ -27,18 +28,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Carrito de Compras</title>
 
-        <!-- Agrega los enlaces a los archivos CSS de Bootstrap -->
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            /* Estilo personalizado para un input más pequeño */
-            .input-sm {
-                font-size: 0.75rem; /* Ajusta el tamaño del texto según sea necesario */
-                padding: 0.25rem 0.5rem; /* Ajusta el relleno según sea necesario */
-                height: 1.7rem; /* Ajusta la altura según sea necesario */
-            }
-        </style>
     </head>
-    <body>
+    <body class="m-0 border-0 bd-example m-0 border-0">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Mi Tienda</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +39,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Inicio</a>
+                        <a class="nav-link" href="home.jsp">Inicio</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="sProducts">Productos</a>
@@ -70,17 +62,18 @@
                 </ul>
             </div>
         </nav>
-        <div class="container mt-5"  name='productsConteiner' id='productsConteiner'>
-            <h2 class="mb-4">Carrito de Compras</h2>
+        <div class="container"  name='productsConteiner' id='productsConteiner'>
+            <h2 class="mb-3">Carrito de Compras</h2>
             <div class="row">
-                <div class="col-md-8">
+                <div class="col=lg-8">
                     <table class="table">
                         <thead>
-
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Producto</th>
                                 <th scope="col">Precio</th>
+                                <th scope="col">Sabor</th>
+                                <th scope="col">Tamaño</th>
                                 <th scope="col">Cantidad</th>
                                 <th scope="col">Total</th>
                                 <th scope="col"></th>
@@ -97,12 +90,16 @@
                             <tr>
 
                                 <th scope="row"><%= i + 1%></th>
-                                <td><%= product.getName()%></td>
-                                <td>$ <%= product.getPrice()%></td>
+                                <td><%=product.getName()%></td>
+                                <td>$<%=product.getPrice()%></td>
+                                <td><%=orderDetails.getFlavor()%></td>
+                                <td><%=orderDetails.getSize()%></td>
                                 <td>
                                     <form  action="sCartModify" method="POST" id="form_registerOrder">
                                         <input type="hidden" name="orderId" id="orderId" value="<%= orderDetails.getIdOrder()%>">
                                         <input type="hidden" name="productId" id="productId" value="<%= product.getId()%>">
+                                        <input type="hidden" name="productFlavor" id="productFlavor" value="<%= orderDetails.getFlavor()%>">
+                                        <input type="hidden" name="productSize" id="productSize" value="<%= orderDetails.getSize()%>">
                                         <input type="number" class="form-control form-control-sm" min="1" id="quantityOrderD" name="quantityOrderD" value="<%= orderDetails.getQuantity()%>">
                                         </td>
                                         <%
@@ -111,7 +108,7 @@
                                         %> 
                                         <td>$ <%= totalUnitario%></td>
                                         <td>
-                                            <input class="btn btn-success" type="submit" value="X" name="X">
+                                            <input class="btn btn-success" type="submit" value="M" name="M">
                                     </form>
                                 </td>
 
@@ -119,6 +116,8 @@
                                     <form  action="sCartModify" method="GET" id="form_registerOrder">
                                         <input type="hidden" name="productId" id="productId" value="<%= product.getId()%>">
                                         <input type="hidden" name="orderId" id="orderId" value="<%= orderDetails.getIdOrder()%>">
+                                        <input type="hidden" name="productFlavor" id="productFlavor" value="<%= orderDetails.getFlavor()%>">
+                                        <input type="hidden" name="productSize" id="productSize" value="<%= orderDetails.getSize()%>">
                                         <input class="btn btn-danger" type="submit" value="X" name="X">
                                     </form>
                                 </td>
@@ -131,7 +130,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-md-4">
+                <div class="col-lg-4">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Resumen del Pedido</h5>
@@ -139,24 +138,19 @@
                             <p class="card-text">$<%= totalCost%></p>
                             <p class="card-text">Envío:</p>
                             <p class="card-text">$5.00</p>
-                            <h4>Total: $<%= totalCost+5 %></h4>
+                            <h4>Total: $<%= totalCost + 5%></h4>
                             <form  action="sPurchase" method="GET"id="form_registerOrder">
-                                <input type="hidden" name="orderId" id="orderId" value="<%= orderDetailsActual.getId() %>">
+                                <input type="hidden" name="orderId" id="orderId" value="<%= orderDetailsActual.getId()%>">
                                 <input class="btn btn-primary" type="submit" value="Pagar" name="Pagar">
                             </form>
-                            
+
                         </div>
                     </div>
-                    <a href="pages/home.jsp" class="btn btn-primary">Regresar al home</a>
+                    <a href="pages/home.jsp" class="btn btn-primary m-2">Regresar al home</a>
                 </div>
             </div>
         </div>
 
-        <!-- Agrega los enlaces a los archivos JavaScript de Bootstrap (si es necesario) -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     </body>
 </html>

@@ -7,7 +7,6 @@ package com.mycompany.tienda.dao;
 import com.mycompany.tienda.DB.MySQLConnection;
 import com.mycompany.tienda.idao.IOrderDaoSQL;
 import com.mycompany.tienda.models.Order;
-import com.mycompany.tienda.models.OrderDetails;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -21,7 +20,7 @@ import java.util.List;
  */
 public class OrderDaoSQL implements IOrderDaoSQL {
 
-    private final String SAVE_DATA_ORDER_PROCEDURE = "{call saveDataOrder(?,?,?,?,?)}";
+    private final String SAVE_DATA_ORDER_PROCEDURE = "{call saveDataOrder(?,?,?,?,?,?,?)}";
     private final String SEARCH_ORDER_PROCEDURE = "{call searchOrder(?,?,?,?)}";
     private final String SEARCH_ALL_ORDER_PROCEDURE = "{call searchAllOrders()}";
 
@@ -44,6 +43,8 @@ public class OrderDaoSQL implements IOrderDaoSQL {
             st.setInt(3, order.getIdUser());
             st.setString(4, order.getDate() + "");
             st.setString(5, order.getStatus());
+            st.setString(6, order.getPayment());
+            st.setString(7, order.getDirection());
 
             rs = st.executeQuery();
             if (rs.next()) {
@@ -81,6 +82,8 @@ public class OrderDaoSQL implements IOrderDaoSQL {
             st.setInt(3, order.getIdUser());
             st.setString(4, order.getDate() + "");
             st.setString(5, order.getStatus());
+            st.setString(6, order.getPayment());
+            st.setString(7, order.getDirection());
 
             rs = st.executeQuery();
             if (rs.next()) {
@@ -122,7 +125,6 @@ public class OrderDaoSQL implements IOrderDaoSQL {
             st.setInt(2, userId);
             st.setString(3, "");
             st.setString(4, "");
-//            st.setString(5, "");
 
             rs = st.executeQuery();
             if (rs.next()) {
@@ -207,15 +209,16 @@ public class OrderDaoSQL implements IOrderDaoSQL {
         }
         return listOrder;
     }
-    
+
     private Order resultSetToOrderDetails(ResultSet rs) throws SQLException {
-        
+
         Order orderD = new Order(
                 rs.getInt("Order_id"),
                 rs.getInt("User_id"),
                 rs.getString("Order_Date"),
-                rs.getString("Order_Status"));
-        System.out.println(orderD);
+                rs.getString("Order_Status"),
+                rs.getString("Order_Payment"),
+                rs.getString("Order_Direction"));
         return orderD;
     }
 

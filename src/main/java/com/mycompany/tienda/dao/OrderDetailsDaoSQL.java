@@ -21,13 +21,13 @@ import java.util.List;
  */
 public class OrderDetailsDaoSQL implements IOrderDetailsDaoSQL {
 
-    private final String SAVE_DATA_ORDER_DETAILS_PROCEDURE = "{call saveDataOrderDetails(?,?,?,?,?,?)}";
-    private final String SEARCH_ORDER_DETAILS_PROCEDURE = "{call searchOrderDetails(?,?,?)}";
+    private final String SAVE_DATA_ORDER_DETAILS_PROCEDURE = "{call saveDataOrderDetails(?,?,?,?,?,?,?,?)}";
+    private final String SEARCH_ORDER_DETAILS_PROCEDURE = "{call searchOrderDetails(?,?,?,?,?)}";
     private final String SEARCH_ALL_ORDER_DETAILS_PROCEDURE = "{call searchOrderDetails(?,?,?)}";
-    
+
     private Connection connectionSQL;
     MySQLConnection connection = new MySQLConnection();
-    
+
     public OrderDetailsDaoSQL() {
         this.connectionSQL = connection.getConectar();
     }
@@ -45,6 +45,8 @@ public class OrderDetailsDaoSQL implements IOrderDetailsDaoSQL {
             st.setInt(4, orderDetails.getIdProdcut());
             st.setInt(5, orderDetails.getQuantity());
             st.setString(6, orderDetails.getUnitPrice());
+            st.setString(7, orderDetails.getFlavor());
+            st.setString(8, orderDetails.getSize());
             rs = st.executeQuery();
             if (rs.next()) {
                 String msj = rs.getString("Message");
@@ -65,7 +67,7 @@ public class OrderDetailsDaoSQL implements IOrderDetailsDaoSQL {
     }
 
     @Override
-    public OrderDetails searchOrderDetails(int orderDetailsId, int productId) {
+    public OrderDetails searchOrderDetails(int orderDetailsId, int productId, String orderDetailFlavor, String orderDetailSize) {
         ResultSet rs = null;
         CallableStatement st = null;
 //        List<OrderDetails> listOrderD = new ArrayList<>();
@@ -76,6 +78,8 @@ public class OrderDetailsDaoSQL implements IOrderDetailsDaoSQL {
             st.setString(1, seletion);
             st.setInt(2, orderDetailsId);
             st.setInt(3, productId);
+            st.setString(4, orderDetailFlavor);
+            st.setString(5, orderDetailSize);
             rs = st.executeQuery();
             while (rs.next()) {
                 orderDetails = resultSetToOrderDetails(rs);
@@ -97,7 +101,7 @@ public class OrderDetailsDaoSQL implements IOrderDetailsDaoSQL {
         CallableStatement st = null;
         try {
             String seletion = "update";
-            
+
             st = connectionSQL.prepareCall(SAVE_DATA_ORDER_DETAILS_PROCEDURE);
             st.setString(1, seletion);
             st.setInt(2, orderDetails.getId());
@@ -105,6 +109,8 @@ public class OrderDetailsDaoSQL implements IOrderDetailsDaoSQL {
             st.setInt(4, orderDetails.getIdProdcut());
             st.setInt(5, orderDetails.getQuantity());
             st.setString(6, orderDetails.getUnitPrice());
+            st.setString(7, orderDetails.getFlavor());
+            st.setString(8, orderDetails.getSize());
             rs = st.executeQuery();
             if (rs.next()) {
                 String msj = rs.getString("Message");
@@ -125,7 +131,7 @@ public class OrderDetailsDaoSQL implements IOrderDetailsDaoSQL {
     }
 
     @Override
-    public String deleteOrderDetails(int orderDetailsId, int productId) {
+    public String deleteOrderDetails(int orderDetailsId, int productId, String orderDetailFlavor, String orderDetailSize) {
         ResultSet rs = null;
         CallableStatement st = null;
         try {
@@ -134,6 +140,8 @@ public class OrderDetailsDaoSQL implements IOrderDetailsDaoSQL {
             st.setString(1, seletion);
             st.setInt(2, orderDetailsId);
             st.setInt(3, productId);
+            st.setString(4, orderDetailFlavor);
+            st.setString(5, orderDetailSize);
             rs = st.executeQuery();
             if (rs.next()) {
                 String msj = rs.getString("Message");
@@ -158,12 +166,14 @@ public class OrderDetailsDaoSQL implements IOrderDetailsDaoSQL {
             st.setString(1, seletion);
             st.setInt(2, orderId);
             st.setInt(3, 0);
+            st.setString(4, "");
+            st.setString(5, "");
             rs = st.executeQuery();
             while (rs.next()) {
                 listOrderD.add((resultSetToOrderDetails(rs)));
             }
         } catch (SQLException ex) {
-            System.out.println("Error searchAllOrdersDetailsUser" + ex.toString()) ;
+            System.out.println("Error searchAllOrdersDetailsUser" + ex.toString());
         } finally {
 //            try {
 //                connection.cerrarConectar();
@@ -172,20 +182,22 @@ public class OrderDetailsDaoSQL implements IOrderDetailsDaoSQL {
         }
         return listOrderD;
     }
-    
+
     private OrderDetails resultSetToOrderDetails(ResultSet rs) throws SQLException {
         OrderDetails orderD = new OrderDetails(
                 rs.getInt("Detail_id"),
                 rs.getInt("Order_id"),
                 rs.getInt("Product_id"),
                 rs.getInt("Detail_Quantity"),
-                rs.getString("Detail_UnitPrice"));
+                rs.getString("Detail_UnitPrice"),
+                rs.getString("Detail_Product_Flavor"),
+                rs.getString("Detail_Product_Size"));
         return orderD;
     }
 
     @Override
     public List<OrderDetails> searchAllOrdersDetailsUser(int orderId) {
-         ResultSet rs = null;
+        ResultSet rs = null;
         CallableStatement st = null;
         List<OrderDetails> listOrderD = new ArrayList<>();
 
@@ -195,12 +207,14 @@ public class OrderDetailsDaoSQL implements IOrderDetailsDaoSQL {
             st.setString(1, seletion);
             st.setInt(2, orderId);
             st.setInt(3, 0);
+            st.setString(4, "");
+            st.setString(5, "");
             rs = st.executeQuery();
             while (rs.next()) {
                 listOrderD.add((resultSetToOrderDetails(rs)));
             }
         } catch (SQLException ex) {
-            System.out.println("Error searchAllOrdersDetailsUser" + ex.toString()) ;
+            System.out.println("Error searchAllOrdersDetailsUser" + ex.toString());
         } finally {
 //            try {
 //                connection.cerrarConectar();

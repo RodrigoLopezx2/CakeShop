@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.mycompany.tienda.idao.IDaoUser;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -60,8 +61,13 @@ public class sUserModify extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession sessionUser = request.getSession();
+        if ((sessionUser.getAttribute("email") == null)) {
+            response.sendRedirect("index.html");
+            System.out.println("Sesion no creada");
+        }
         IDaoUser userDao = new UserDaoSQL();
-        
+
         if (userDao.deleteUser(request.getParameter("emailUser")).equals("User deleted")) {
             response.sendRedirect("index.html");
         }

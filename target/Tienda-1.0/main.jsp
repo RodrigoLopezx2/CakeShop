@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    
     String sessionUser = (String) request.getAttribute("sessionUser");
     if (sessionUser.equals("false")) {
         out.println("<script>alert('El email o password no corresponden');</script>");
@@ -61,16 +62,6 @@
                     </form>                   
                     <p class="link">Don't have an account<br>
                         <a href="pages/createUser.jsp">Sign up </a> here</p>
-<!--                    <p class="liw">Log in with</p>
-
-                    <div class="icons">
-                        <a href="#"><ion-icon name="logo-facebook"></ion-icon></a>
-                        <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
-                        <a href="#"><ion-icon name="logo-twitter"></ion-icon></a>
-                        <a href="#"><ion-icon name="logo-google"></ion-icon></a>
-                        <a href="#"><ion-icon name="logo-skype"></ion-icon></a>
-                    </div>-->
-
                 </div>
             </div>
         </div>

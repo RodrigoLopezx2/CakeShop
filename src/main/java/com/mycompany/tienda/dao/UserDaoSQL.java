@@ -11,6 +11,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import com.mycompany.tienda.idao.IDaoUser;
+import com.mycompany.tienda.models.Product;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -197,13 +200,36 @@ public class UserDaoSQL implements IDaoUser {
     }
 
     @Override
+    public List<Product> searchLastProductsUser(String emailUser) {
+        ResultSet rs = null;
+        CallableStatement st = null;
+        List<Product> product = new ArrayList<>();
+        try {
+
+            String id = "searchLastProducts";
+            st = connectionSQL.prepareCall(SEARCH_USER_PROCEDURE);
+            st.setString(1, id);
+            st.setString(2, emailUser);
+            st.setString(3, "");
+            rs = st.executeQuery();
+            while(rs.next()) {
+                product.add(ProductDaoSQL.resultSetToProduct(rs));
+            }
+        } catch (Exception e) {
+            System.out.println("error deleteUser " + e.toString());
+        }
+        return product;
+    }
+
+    @Override
     public boolean closeDBConnection() {
         try {
             connection.cerrarConectar();
         } catch (SQLException ex) {
             System.out.println("Conexion closed");
-           return false;
+            return false;
         }
         return true;
-    }    
+    }
+
 }
